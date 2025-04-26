@@ -1,4 +1,3 @@
-// The exported code uses Tailwind CSS. Install Tailwind CSS in your dev environment to ensure all styles work.
 "use client"
 import React, { useState, useRef, useEffect } from "react";
 import * as echarts from "echarts";
@@ -26,13 +25,15 @@ import {
    TooltipTrigger,
 } from "@/components/ui/tooltip";
 import '@fortawesome/fontawesome-free/css/all.min.css';
+import { useAuth } from "@/components/shared/auth/AuthContext";
+import { useRouter } from "next/navigation";
 const App: React.FC = () => {
    const [searchQuery, setSearchQuery] = useState<string>("");
    const [isMapGenerated, setIsMapGenerated] = useState<boolean>(false);
    const [isDarkMode, setIsDarkMode] = useState<boolean>(false);
    const [zoomLevel, setZoomLevel] = useState<number[]>([50]);
    const [progress, setProgress] = useState<number>(67);
- 
+   const router = useRouter();
    const [activeTab, setActiveTab] = useState<string>("carte");
    const chartRef = useRef<HTMLDivElement>(null);
    const chartInstance = useRef<echarts.ECharts | null>(null);
@@ -41,7 +42,6 @@ const App: React.FC = () => {
       if (!searchQuery.trim()) return;
       setIsMapGenerated(true);
 
-      // Simuler un délai de génération
       setTimeout(() => {
          initChart();
       }, 500);
@@ -287,6 +287,16 @@ const App: React.FC = () => {
          icon: "python",
       },
    ];
+   const { user, loading } = useAuth();
+
+   useEffect(() => {
+      if (loading) return; // Still loading auth state
+
+      if (!user) {
+         console.log("No user, redirecting...");
+         router.push("/login");
+      }
+   }, [user, loading, router]);
 
    return (
       <div
@@ -782,7 +792,7 @@ const App: React.FC = () => {
                                              key={item}
                                              className="flex items-start space-x-4"
                                           >
-                                          
+
                                              <div className="space-y-1">
                                                 <p className="text-sm font-medium">
                                                    Concept complété: Classification

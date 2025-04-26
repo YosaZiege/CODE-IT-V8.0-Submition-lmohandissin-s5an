@@ -4,6 +4,7 @@ import "./globals.css";
 
 import { ThemeProvider } from "next-themes";
 import { APP_DESCRIPTION, APP_NAME, SERVER_URL } from "./util/constants";
+import { AuthProvider } from "@/components/shared/auth/AuthContext";
 
 const geistSans = Geist({
    variable: "--font-geist-sans",
@@ -35,9 +36,13 @@ export default function RootLayout({
          <body
             className={`${geistSans.variable} ${geistMono.variable} antialiased`}
          >
-            <ThemeProvider attribute='class' defaultTheme='light' enableSystem disableTransitionOnChange>
-               {children}
-            </ThemeProvider>
+            <AuthProvider>
+               <ThemeProvider attribute='class' defaultTheme='light' enableSystem disableTransitionOnChange>
+
+
+                  {children}
+               </ThemeProvider>
+            </AuthProvider>
          </body>
       </html>
    );
