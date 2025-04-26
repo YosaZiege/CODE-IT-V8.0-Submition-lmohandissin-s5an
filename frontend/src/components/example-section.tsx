@@ -74,7 +74,7 @@ const ExamplesSection = () => {
                      </CardHeader>
                      <CardFooter>
                         <Button variant="outline" className="w-full rounded-button whitespace-nowrap">
-                           Voir l'exemple
+                           Voir l&apos;exemple
                         </Button>
                      </CardFooter>
                   </Card>

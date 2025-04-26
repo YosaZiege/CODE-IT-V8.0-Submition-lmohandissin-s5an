@@ -67,7 +67,7 @@ const PricingSection = () => {
             Tarifs Simples et Transparents
           </h2>
           <p className="text-xl max-w-2xl mx-auto text-gray-600">
-            Choisissez le plan qui correspond à vos besoins d'apprentissage
+            Choisissez le plan qui correspond à vos besoins d&apos;apprentissage
           </p>
         </div>
 

@@ -12,7 +12,7 @@ const Hero = () => {
             <p className="text-xl mb-8">
                Saisissez ce que vous souhaitez apprendre et nous créerons
                instantanément une carte mentale interactive avec les concepts
-               clés, ressources et parcours d'apprentissage.
+               clés, ressources et parcours d&apos;apprentissage.
             </p>
             <div className="flex justify-center space-x-4">
                <Button
@@ -52,7 +52,7 @@ const Hero = () => {
                <CardContent>
                   <p>
                      Visualisez les connexions entre les concepts et créez un
-                     parcours d'apprentissage logique et efficace.
+                     parcours d&apos;apprentissage logique et efficace.
                   </p>
                </CardContent>
             </Card>

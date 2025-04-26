@@ -8,7 +8,7 @@ const Footer = () => {
                <div>
                   <h3 className="text-lg font-bold mb-4">MindMapGen</h3>
                   <p className="text-sm">
-                     Transformez votre façon d'apprendre avec nos cartes mentales
+                     Transformez votre façon d&apos;apprendre avec nos cartes mentales
                      interactives générées par IA.
                   </p>
                </div>
@@ -26,7 +26,7 @@ const Footer = () => {
                <div>
                   <h3 className="text-lg font-bold mb-4">Ressources</h3>
                   <ul className="space-y-2 text-sm">
-                     <li><a href="#" className="hover:underline cursor-pointer">Centre d'aide</a></li>
+                     <li><a href="#" className="hover:underline cursor-pointer">Centre d&apos;aide</a></li>
                      <li><a href="#" className="hover:underline cursor-pointer">Tutoriels</a></li>
                      <li><a href="#" className="hover:underline cursor-pointer">API</a></li>
                      <li><a href="#" className="hover:underline cursor-pointer">Communauté</a></li>
@@ -36,7 +36,7 @@ const Footer = () => {
                <div>
                   <h3 className="text-lg font-bold mb-4">Légal</h3>
                   <ul className="space-y-2 text-sm">
-                     <li><a href="#" className="hover:underline cursor-pointer">Conditions d'utilisation</a></li>
+                     <li><a href="#" className="hover:underline cursor-pointer">Conditions d&apos;utilisation</a></li>
                      <li><a href="#" className="hover:underline cursor-pointer">Politique de confidentialité</a></li>
                      <li><a href="#" className="hover:underline cursor-pointer">Cookies</a></li>
                   </ul>
