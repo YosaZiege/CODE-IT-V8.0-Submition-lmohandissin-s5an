@@ -32,7 +32,7 @@ const App: React.FC = () => {
    const [isDarkMode, setIsDarkMode] = useState<boolean>(false);
    const [zoomLevel, setZoomLevel] = useState<number[]>([50]);
    const [progress, setProgress] = useState<number>(67);
-   setProgress(67)
+ 
    const [activeTab, setActiveTab] = useState<string>("carte");
    const chartRef = useRef<HTMLDivElement>(null);
    const chartInstance = useRef<echarts.ECharts | null>(null);
@@ -228,6 +228,7 @@ const App: React.FC = () => {
    };
 
    const toggleDarkMode = () => {
+      setProgress(67)
       setIsDarkMode(!isDarkMode);
       if (isMapGenerated && chartInstance.current) {
          chartInstance.current.dispose();
