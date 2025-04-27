@@ -27,27 +27,61 @@ import {
 import '@fortawesome/fontawesome-free/css/all.min.css';
 import { useAuth } from "@/components/shared/auth/AuthContext";
 import { useRouter } from "next/navigation";
+
 const App: React.FC = () => {
    const [searchQuery, setSearchQuery] = useState<string>("");
    const [isMapGenerated, setIsMapGenerated] = useState<boolean>(false);
    const [isDarkMode, setIsDarkMode] = useState<boolean>(false);
    const [zoomLevel, setZoomLevel] = useState<number[]>([50]);
    const [progress, setProgress] = useState<number>(67);
+   const [isLoading, setIsLoading] = useState<boolean>(false);
    const router = useRouter();
    const [activeTab, setActiveTab] = useState<string>("carte");
    const chartRef = useRef<HTMLDivElement>(null);
    const chartInstance = useRef<echarts.ECharts | null>(null);
 
-   const generateMindMap = () => {
-      if (!searchQuery.trim()) return;
+   const generateMindMap = async () => {
+      if (!searchQuery.trim()) {
+         alert("Veuillez entrer un sujet");
+         return;
+      }
+
+      setIsLoading(true);
       setIsMapGenerated(true);
+      setActiveTab("carte");
 
-      setTimeout(() => {
-         initChart();
-      }, 500);
+      try {
+         // Create an AbortController for timeout
+         const controller = new AbortController();
+         const timeoutId = setTimeout(() => controller.abort(), 60000); // 60 seconds timeout
+
+         const response = await fetch('/api/generate-map', {
+            method: 'POST',
+            headers: {
+               'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ topic: searchQuery }),
+            signal: controller.signal
+         });
+
+         clearTimeout(timeoutId);
+
+         if (!response.ok) {
+            const errorData = await response.json();
+            throw new Error(errorData.error || 'Failed to generate mindmap');
+         }
+
+         const data = await response.json();
+         initChart(data);
+      } catch (error) {
+         console.error('Error:', error);
+         alert(error || "Échec de la génération de la carte mentale");
+         setIsMapGenerated(false);
+      } finally {
+         setIsLoading(false);
+      }
    };
-
-   const initChart = () => {
+   const initChart = (data?: any) => {
       if (!chartRef.current) return;
 
       if (chartInstance.current) {
@@ -60,7 +94,7 @@ const App: React.FC = () => {
       );
       chartInstance.current = chart;
 
-      const option = {
+      const option = data || {
          animation: false,
          tooltip: {
             trigger: "item",
@@ -215,7 +249,6 @@ const App: React.FC = () => {
    const handleZoomChange = (value: number[]) => {
       setZoomLevel(value);
       if (chartInstance.current) {
-         // Simuler un zoom sur la carte
          const zoom = value[0] / 50;
          chartInstance.current.setOption({
             series: [
@@ -228,7 +261,7 @@ const App: React.FC = () => {
    };
 
    const toggleDarkMode = () => {
-      setProgress(67)
+      setProgress(67);
       setIsDarkMode(!isDarkMode);
       if (isMapGenerated && chartInstance.current) {
          chartInstance.current.dispose();
@@ -287,10 +320,11 @@ const App: React.FC = () => {
          icon: "python",
       },
    ];
+
    const { user, loading } = useAuth();
 
    useEffect(() => {
-      if (loading) return; // Still loading auth state
+      if (loading) return;
 
       if (!user) {
          console.log("No user, redirecting...");
@@ -327,8 +361,16 @@ const App: React.FC = () => {
                      <Button
                         onClick={generateMindMap}
                         className="ml-2 !rounded-button whitespace-nowrap bg-indigo-600 hover:bg-indigo-700"
+                        disabled={isLoading}
                      >
-                        Générer
+                        {isLoading ? (
+                           <>
+                              <i className="fa fa-spinner fa-spin mr-2"></i>
+                              Génération...
+                           </>
+                        ) : (
+                           "Générer"
+                        )}
                      </Button>
                   </div>
                </div>
@@ -939,4 +981,3 @@ const App: React.FC = () => {
 };
 
 export default App;
-
